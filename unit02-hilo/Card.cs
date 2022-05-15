@@ -2,9 +2,12 @@ using System;
 
 namespace unit02_hilo
 {
+    ///<summary>
+    /// The Card class contains all variables and functions
+    /// related to the hilo game
+    ///</summary>
     public class Card
-    {
-        
+    {   
         public bool playAgain = true;
         //public Random newCard = new Random();
         public int card = 5;
@@ -12,6 +15,9 @@ namespace unit02_hilo
         public string userInput = "";
         public int score = 100;
 
+        ///<summary>
+        /// starts the game
+        ///</summary>
         public void startGame(){
             while(playAgain && score > 0)
             {
@@ -97,6 +103,9 @@ namespace unit02_hilo
             return playAgain;
         }
 
+        /// <summary>
+        /// Once the game is over, thank the player for playing
+        /// </summary>
         public void gameOver(int score){
             if (score> 0){
                 Console.WriteLine($"\nThank you for playing.\nYour score is {score}");

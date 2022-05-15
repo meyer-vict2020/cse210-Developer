@@ -11,6 +11,5 @@ namespace unit02_hilo
             card.startGame();
             return 0;
         }
-    }
-    
+    } 
 }
