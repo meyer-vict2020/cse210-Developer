@@ -9,7 +9,6 @@ namespace Unit03.Game
     public class Word
     {
         public List<char> word = new List<char>();
-        private char guess;
         private string answer;
         private TerminalService terminalService = new TerminalService();
 
@@ -18,28 +17,48 @@ namespace Unit03.Game
         /// </summary>
         public Word(){
             Random random = new Random();
-            string[] randWord = {"apple", "table", "waterbottle", "television"};
+            string[] randWord = {"apple", "table", "waterbottle", "television", "sphynx"};
             int w = random.Next(0, 4);
             answer = randWord[w];
 
-            foreach (char c in answer){
+            foreach (char i in answer){
                 word.Add('_');
             }
+            
         }
 
         /// <summary>
-        /// Gets the user input for a letter
+        /// Updates and displays the progress for the word
         /// </summary>
-        public void GetGuess(){
-
+        public void DisplayWord(){
+            foreach (char i in word){
+                Console.Write($"{i} ");
+            }
         }
         
         /// <summary>
         /// Checks whether the input is part of the answer
         /// and is valid, and updates the word
         /// </summary>
-        public void CheckAnswer(){
+        public void UpdateWord(char guess){
+            int i = 0;
+            foreach (char c in answer){
+                if (c == guess){
+                    word[i]= guess;
+                }
+                i += 1;
+            }
             
         }
+
+        public bool isFound(){
+            foreach (char c in word){
+                if (c == '_'){
+                    return false;
+                }
+            }
+            return true;
+        }
+
     }
 }

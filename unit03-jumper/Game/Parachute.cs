@@ -8,8 +8,6 @@ namespace Unit03.Game
     /// </summary>
     public class Parachute
     {
-        private List<int> distance = new List<int>();
-
         /// <summary>
         /// Constructs a new instance of the Parachute. 
         /// </summary>
@@ -20,7 +18,7 @@ namespace Unit03.Game
         }
         
         /// <summary>
-        /// Creates a parachute to display
+        /// Displays the current progress with the parachute
         /// </summary>
         public void DisplayParachute()
         {

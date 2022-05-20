@@ -13,6 +13,7 @@ namespace Unit03.Game
         private Word word = new Word();
         private Parachute parachute = new Parachute();
         private bool isPlaying = true;
+        public char guess;
         private TerminalService terminalService = new TerminalService();
 
         /// <summary>
@@ -29,37 +30,43 @@ namespace Unit03.Game
         {
             while (isPlaying)
             {
+                DoOutputs();
                 GetInputs();
                 DoUpdates();
-                DoOutputs();
             }
         }
 
         /// <summary>
-        /// 
+        /// Gets the user guess and converts it to a character
         /// </summary>
         private void GetInputs()
         {
-            string userInput = terminalService.ReadText("Guess a letter [a-z]: ");
-
+            string userInput = terminalService.ReadText("\nGuess a letter [a-z]: ");
+            char[] guessArr = userInput.ToCharArray();
+            guess = guessArr[0];
         }
 
         /// <summary>
-        /// 
+        /// Updates the parachute and the word based on the guess
         /// </summary>
         private void DoUpdates()
         {
             parachute.UpdateParachute();
-            word.CheckAnswer();
+            word.UpdateWord(guess);
+            if (word.isFound()){
+                isPlaying = false;
+                word.DisplayWord();
+                terminalService.WriteText("\nYou have won!.");
+            }
         }
 
         /// <summary>
-        /// 
+        /// Displays the current parachute and word
         /// </summary>
         private void DoOutputs()
         {
+            word.DisplayWord();
             parachute.DisplayParachute();
-            
         }
     }
 }
