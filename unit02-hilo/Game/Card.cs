@@ -8,6 +8,9 @@ namespace unit02_hilo
     ///</summary>
     public class Card
     {   
+        public Card(){
+        }
+
         public bool playAgain = true;
         //public Random newCard = new Random();
         public int card = 5;
