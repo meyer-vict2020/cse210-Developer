@@ -7,8 +7,8 @@ namespace unit02_hilo
     {
         static int Main(string[] args)
         {
-            Card card = new Card();
-            card.startGame();
+            Director director = new Director();
+            director.startGame();
             return 0;
         }
     } 
