@@ -9,7 +9,7 @@ namespace Unit03.Game
     public class Word
     {
         public List<char> word = new List<char>();
-        private string answer;
+        public string answer;
         private TerminalService terminalService = new TerminalService();
 
         /// <summary>

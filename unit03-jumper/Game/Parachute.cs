@@ -9,6 +9,7 @@ namespace Unit03.Game
     public class Parachute
     {
         List<string> parachute = new List<string>();
+        Word word = new Word();
 
         /// <summary>
         /// Constructs a new instance of the Parachute. 
@@ -37,14 +38,26 @@ namespace Unit03.Game
         /// Updates the parachute based on whether the user 
         /// inputs a correct letter.
         /// </summary>
-        public void UpdateParachute(int guess)
+        public void UpdateParachute(char guess, int i)
         {
-
+            if (word.answer.Contains(guess)){
+                return;
+            }
+            else{
+                parachute.RemoveAt(0);
+                i += 1;
+            }
         }
 
-        public bool isLost()
+        public bool isLost(int numTries)
         {
-            return true;
+            if (parachute[1] =="o"){
+                parachute[1] = "x";
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 }

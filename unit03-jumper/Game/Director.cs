@@ -14,6 +14,7 @@ namespace Unit03.Game
         private Parachute parachute = new Parachute();
         private bool isPlaying = true;
         public char guess;
+        public int numTries = 0;
         private TerminalService terminalService = new TerminalService();
 
         /// <summary>
@@ -51,14 +52,14 @@ namespace Unit03.Game
         /// </summary>
         private void DoUpdates()
         {
-            parachute.UpdateParachute(guess);
+            parachute.UpdateParachute(guess, numTries);
             word.UpdateWord(guess);
             if (word.isWon()){
                 isPlaying = false;
                 word.DisplayWord();
                 terminalService.WriteText("\nYou have won!.");
             }
-            if (parachute.isLost()){
+            else if (parachute.isLost(numTries)){
                 isPlaying = false;
                 word.DisplayWord();
                 terminalService.WriteText("\nYou have Lost. Try again later.");

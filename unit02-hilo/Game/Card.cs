@@ -47,7 +47,6 @@ namespace unit02_hilo
             else{
                 score -= 75;
             }
-            
             Console.WriteLine($"Your score is: {score}");
             return score;
         }
