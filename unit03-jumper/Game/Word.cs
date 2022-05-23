@@ -51,7 +51,10 @@ namespace Unit03.Game
             
         }
 
-        public bool isFound(){
+        /// <summary>
+        /// Checks whether the word has been completed
+        /// </summary>
+        public bool isWon(){
             foreach (char c in word){
                 if (c == '_'){
                     return false;

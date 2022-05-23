@@ -51,12 +51,17 @@ namespace Unit03.Game
         /// </summary>
         private void DoUpdates()
         {
-            parachute.UpdateParachute();
+            parachute.UpdateParachute(guess);
             word.UpdateWord(guess);
-            if (word.isFound()){
+            if (word.isWon()){
                 isPlaying = false;
                 word.DisplayWord();
                 terminalService.WriteText("\nYou have won!.");
+            }
+            if (parachute.isLost()){
+                isPlaying = false;
+                word.DisplayWord();
+                terminalService.WriteText("\nYou have Lost. Try again later.");
             }
         }
 
@@ -65,8 +70,8 @@ namespace Unit03.Game
         /// </summary>
         private void DoOutputs()
         {
-            word.DisplayWord();
             parachute.DisplayParachute();
+            word.DisplayWord();
         }
     }
 }
