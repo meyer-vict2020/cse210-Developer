@@ -18,7 +18,6 @@ namespace unit02_hilo
         public Card(){
         }
 
-
         /// <summary>
         /// Generates a random number between 1 and 13 for the
         /// new card and prints the new card value.
