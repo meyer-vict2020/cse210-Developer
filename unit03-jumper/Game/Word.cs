@@ -1,31 +1,34 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Unit03.Game
 {
     /// <summary>
-    /// 
+    /// The purpose of the Word class is to create a new
+    /// answer, display the blank word, and update the word
+    /// based on if the guesses are in the answer.
     /// </summary>
     public class Word
     {
         public List<char> word = new List<char>();
         public string answer;
-        private TerminalService terminalService = new TerminalService();
 
         /// <summary>
         /// Constructs a new instance of Word.
         /// </summary>
         public Word(){
             Random random = new Random();
-            string[] randWord = {"apple", "table", "waterbottle", "television", "sphynx"};
-            int w = random.Next(0, 4);
-            answer = randWord[w];
-
+            //choose a random word from a list for the answer
+            List<string> randWord = new List<string>(File.ReadLines("Words.txt"));
+            int randomIndex = random.Next(0, randWord.Count);
+            answer = randWord[randomIndex];
+            
+            //initiate the word with blanks
             foreach (char i in answer){
                 word.Add('_');
             }
-            
-        }
+        } 
 
         /// <summary>
         /// Updates and displays the progress for the word
@@ -47,8 +50,7 @@ namespace Unit03.Game
                     word[i]= guess;
                 }
                 i += 1;
-            }
-            
+            } 
         }
 
         /// <summary>

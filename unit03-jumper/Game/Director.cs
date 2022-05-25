@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Unit03.Game
 {
@@ -10,12 +11,13 @@ namespace Unit03.Game
     /// </summary>
     public class Director
     {
-        private Word word = new Word();
+        public Word word = new Word();
         private Parachute parachute = new Parachute();
+        private TerminalService terminalService = new TerminalService();
+
+        private List<char> guessed = new List<char>();
         private bool isPlaying = true;
         public char guess;
-        public int numTries = 0;
-        private TerminalService terminalService = new TerminalService();
 
         /// <summary>
         /// Constructs a new instance of Director.
@@ -33,7 +35,12 @@ namespace Unit03.Game
             {
                 DoOutputs();
                 GetInputs();
-                DoUpdates();
+                //prevents the updates if the letter has already been guessed
+                while (guessed.Contains(guess)){
+                    terminalService.WriteText($"You have already guessed '{guess}.' Please guess again.");
+                    GetInputs();
+                }
+                DoUpdates(guess);
             }
         }
 
@@ -50,19 +57,22 @@ namespace Unit03.Game
         /// <summary>
         /// Updates the parachute and the word based on the guess
         /// </summary>
-        private void DoUpdates()
+        private void DoUpdates(char guess)
         {
-            parachute.UpdateParachute(guess, numTries);
+            //add the guess to the list of guessed words
+            guessed.Add(guess);
+            parachute.UpdateParachute(guess, word.answer);
             word.UpdateWord(guess);
+
+            //if the word is completed, end the game
             if (word.isWon()){
-                isPlaying = false;
-                word.DisplayWord();
-                terminalService.WriteText("\nYou have won!.");
+                endGame();
+                terminalService.WriteText("\nYou have won!");
             }
-            else if (parachute.isLost(numTries)){
-                isPlaying = false;
-                word.DisplayWord();
-                terminalService.WriteText("\nYou have Lost. Try again later.");
+            //if the parachute is gone, end the game
+            else if (parachute.isLost()){
+                endGame();
+                terminalService.WriteText("\nYou have Lost.");
             }
         }
 
@@ -73,6 +83,16 @@ namespace Unit03.Game
         {
             parachute.DisplayParachute();
             word.DisplayWord();
+        }
+
+        ///<summary>
+        /// Displays the final end parachute and word and 
+        /// ends the game.
+        ///</summary>
+        private void endGame(){
+            isPlaying = false;
+            parachute.DisplayParachute();
+            word.DisplayWord();            
         }
     }
 }

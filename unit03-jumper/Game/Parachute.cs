@@ -4,12 +4,13 @@ using System.Collections.Generic;
 namespace Unit03.Game 
 {
     /// <summary>
-    /// 
+    /// The purpose of the Parachute is to save the jumper.
+    /// The player has to guess the correct word before
+    /// the parachute runs out.
     /// </summary>
     public class Parachute
     {
-        List<string> parachute = new List<string>();
-        Word word = new Word();
+        private List<string> parachute = new List<string>();
 
         /// <summary>
         /// Constructs a new instance of the Parachute. 
@@ -17,7 +18,9 @@ namespace Unit03.Game
         public Parachute()
         {
             parachute.Add(@"  ____    ");
-            parachute.Add(@" /____\ ");
+            parachute.Add(@" /    \   ");
+            parachute.Add(@"/______\ ");
+            parachute.Add(@"\      /");
             parachute.Add(@" \    / ");
             parachute.Add(@"  \  /  ");
             parachute.Add(@"    o ");
@@ -38,21 +41,23 @@ namespace Unit03.Game
         /// Updates the parachute based on whether the user 
         /// inputs a correct letter.
         /// </summary>
-        public void UpdateParachute(char guess, int i)
+        public void UpdateParachute(char guess, string answer)
         {
-            if (word.answer.Contains(guess)){
+            if (answer.Contains(guess)){
                 return;
             }
             else{
                 parachute.RemoveAt(0);
-                i += 1;
             }
         }
 
-        public bool isLost(int numTries)
+        ///<summary>
+        /// If the parachute is gone, then you have lost the game
+        ///</summary>
+        public bool isLost()
         {
-            if (parachute[1] =="o"){
-                parachute[1] = "x";
+            if (parachute.Count <= 3){
+                parachute[0] = "    x";
                 return true;
             }
             else{
