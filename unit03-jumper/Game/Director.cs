@@ -12,11 +12,11 @@ namespace Unit03.Game
     public class Director
     {
         public Word word = new Word();
-        private Parachute parachute = new Parachute();
+        private Parachute _parachute = new Parachute();
         private TerminalService terminalService = new TerminalService();
 
-        private List<char> guessed = new List<char>();
-        private bool isPlaying = true;
+        private List<char> _guessed = new List<char>();
+        private bool _isPlaying = true;
         public char guess;
 
         /// <summary>
@@ -31,13 +31,13 @@ namespace Unit03.Game
         /// </summary>
         public void StartGame()
         {
-            while (isPlaying)
+            while (_isPlaying)
             {
                 DoOutputs();
                 GetInputs();
-                //prevents the updates if the letter has already been guessed
-                while (guessed.Contains(guess)){
-                    terminalService.WriteText($"You have already guessed '{guess}.' Please guess again.");
+                //prevents the updates and gets another guess if the letter has already been guessed
+                while (_guessed.Contains(guess)){
+                    terminalService.WriteText($"You have already _guessed '{guess}.' Please guess again.");
                     GetInputs();
                 }
                 DoUpdates(guess);
@@ -59,9 +59,9 @@ namespace Unit03.Game
         /// </summary>
         private void DoUpdates(char guess)
         {
-            //add the guess to the list of guessed words
-            guessed.Add(guess);
-            parachute.UpdateParachute(guess, word.answer);
+            //add the guess to the list of _guessed words
+            _guessed.Add(guess);
+            _parachute.UpdateParachute(guess, word.answer);
             word.UpdateWord(guess);
 
             //if the word is completed, end the game
@@ -70,7 +70,7 @@ namespace Unit03.Game
                 terminalService.WriteText("\nYou have won!");
             }
             //if the parachute is gone, end the game
-            else if (parachute.isLost()){
+            else if (_parachute.isLost()){
                 endGame();
                 terminalService.WriteText("\nYou have Lost.");
             }
@@ -81,7 +81,7 @@ namespace Unit03.Game
         /// </summary>
         private void DoOutputs()
         {
-            parachute.DisplayParachute();
+            _parachute.DisplayParachute();
             word.DisplayWord();
         }
 
@@ -90,8 +90,8 @@ namespace Unit03.Game
         /// ends the game.
         ///</summary>
         private void endGame(){
-            isPlaying = false;
-            parachute.DisplayParachute();
+            _isPlaying = false;
+            _parachute.DisplayParachute();
             word.DisplayWord();            
         }
     }

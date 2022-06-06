@@ -10,22 +10,22 @@ namespace Unit03.Game
     /// </summary>
     public class Parachute
     {
-        private List<string> parachute = new List<string>();
+        private List<string> _parachute = new List<string>();
 
         /// <summary>
         /// Constructs a new instance of the Parachute. 
         /// </summary>
         public Parachute()
         {
-            parachute.Add(@"  ____    ");
-            parachute.Add(@" /    \   ");
-            parachute.Add(@"/______\ ");
-            parachute.Add(@"\      /");
-            parachute.Add(@" \    / ");
-            parachute.Add(@"  \  /  ");
-            parachute.Add(@"    o ");
-            parachute.Add(@"   /|\ ");
-            parachute.Add(@"   / \ ");
+            _parachute.Add(@"  ____    ");
+            _parachute.Add(@" /    \   ");
+            _parachute.Add(@"/______\ ");
+            _parachute.Add(@"\      /");
+            _parachute.Add(@" \    / ");
+            _parachute.Add(@"  \  /  ");
+            _parachute.Add(@"    o ");
+            _parachute.Add(@"   /|\ ");
+            _parachute.Add(@"   / \ ");
         }
         
         /// <summary>
@@ -33,7 +33,7 @@ namespace Unit03.Game
         /// </summary>
         public void DisplayParachute()
         {
-            string para = string.Join("\n", parachute);
+            string para = string.Join("\n", _parachute);
             Console.WriteLine(para);
         }
 
@@ -47,7 +47,7 @@ namespace Unit03.Game
                 return;
             }
             else{
-                parachute.RemoveAt(0);
+                _parachute.RemoveAt(0);
             }
         }
 
@@ -56,8 +56,8 @@ namespace Unit03.Game
         ///</summary>
         public bool isLost()
         {
-            if (parachute.Count <= 3){
-                parachute[0] = "    x";
+            if (_parachute.Count <= 3){
+                _parachute[0] = "    x   ";
                 return true;
             }
             else{
