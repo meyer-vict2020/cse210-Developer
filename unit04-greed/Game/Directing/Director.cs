@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Unit04.Game.Casting;
 using Unit04.Game.Services;
-
+using System;
 
 namespace Unit04.Game.Directing
 {
@@ -49,9 +49,21 @@ namespace Unit04.Game.Directing
         /// <param name="cast">The given cast.</param>
         private void GetInputs(Cast cast)
         {
+            Random random = new Random();
             Actor robot = cast.GetFirstActor("robot");
-            Point velocity = keyboardService.GetDirection();
-            robot.SetVelocity(velocity);     
+            Point velocity1 = keyboardService.GetDirection();
+            robot.SetVelocity(velocity1);
+
+            List<Actor> rocks = cast.GetActors("rocks");
+            List<Actor> gems = cast.GetActors("gems");
+            foreach (Actor actor in gems){
+                Point velocity2 = new Point(0,(random.Next(0,10)));
+                actor.SetVelocity(velocity2);
+            }
+            foreach (Actor actor in rocks){
+                Point velocity2 = new Point(0,(random.Next(0,10)));
+                actor.SetVelocity(velocity2);
+            }
         }
 
         /// <summary>
@@ -62,22 +74,38 @@ namespace Unit04.Game.Directing
         {
             Actor banner = cast.GetFirstActor("banner");
             Actor robot = cast.GetFirstActor("robot");
-            List<Actor> artifacts = cast.GetActors("artifacts");
+            List<Actor> rocks = cast.GetActors("rocks");
+            List<Actor> gems = cast.GetActors("gems");
 
-            banner.SetText("");
             int maxX = videoService.GetWidth();
             int maxY = videoService.GetHeight();
             robot.MoveNext(maxX, maxY);
 
-            foreach (Actor actor in artifacts)
+            foreach (Actor actor in gems)
             {
+                actor.MoveNext(maxX, maxY);
+
                 if (robot.GetPosition().Equals(actor.GetPosition()))
                 {
                     Artifact artifact = (Artifact) actor;
-                    string message = artifact.GetMessage();
-                    banner.SetText(message);
+                    int score = artifact.GetScore();
+                    score += 1;
+                    banner.SetText(score.ToString());
                 }
-            } 
+            }
+
+            foreach (Actor actor in rocks)
+            {
+                actor.MoveNext(maxX, maxY);
+
+                if (robot.GetPosition().Equals(actor.GetPosition()))
+                {
+                    Artifact artifact = (Artifact) actor;
+                    int score = artifact.GetScore();
+                    score -= 1;
+                    banner.SetText(score.ToString());
+                }
+            }
         }
 
         /// <summary>
