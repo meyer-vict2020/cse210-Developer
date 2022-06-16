@@ -17,14 +17,16 @@ namespace Unit04
         private static int FRAME_RATE = 12;
         private static int MAX_X = 900;
         private static int MAX_Y = 600;
-        private static int CELL_SIZE = 15;
-        private static int FONT_SIZE = 20;
-        private static int COLS = 60;
-        private static int ROWS = 40;
+        private static int[] VELOCITIES = {5, 10};
+        private static int CELL_SIZE = 30;
+        private static int FONT_SIZE = 30;
+        private static int COLS = 30;
+        private static int ROWS = 20;
         private static string CAPTION = "Greed";
         private static string DATA_PATH = "Data/messages.txt";
         private static Color WHITE = new Color(255, 255, 255);
         private static int DEFAULT_ARTIFACTS = 50;
+        private static int GEM_PERCENTAGE = 40;
         
 
 
@@ -50,19 +52,20 @@ namespace Unit04
             robot.SetText("#");
             robot.SetFontSize(FONT_SIZE);
             robot.SetColor(WHITE);
-            robot.SetPosition(new Point(MAX_X / 2, MAX_Y-25));
+            robot.SetPosition(new Point(MAX_X / 2, MAX_Y-40));
             cast.AddActor("robot", robot);
 
             // create the artifacts
             Random random = new Random();
             for (int i = 0; i < (DEFAULT_ARTIFACTS/2); i++)
             {
-                string rocks = ((char)79).ToString();
+                string text = "*";
 
                 int x = random.Next(1, COLS);
                 int y = random.Next(1, ROWS);
                 Point position = new Point(x, y);
                 position = position.Scale(CELL_SIZE);
+                Point velocity = new Point(0, VELOCITIES[random.Next(0, VELOCITIES.Count())]);
 
                 int r = random.Next(0, 256);
                 int g = random.Next(0, 256);
@@ -70,21 +73,23 @@ namespace Unit04
                 Color color = new Color(r, g, b);
 
                 Artifact artifact = new Artifact();
-                artifact.SetText(rocks);
+                artifact.SetText(text);
                 artifact.SetFontSize(FONT_SIZE);
                 artifact.SetColor(color);
                 artifact.SetPosition(position);
-                cast.AddActor("rocks", artifact);
+                artifact.SetVelocity(velocity);
+                cast.AddActor("gems", artifact);
             }
-            
+
             for (int i = 0; i < (DEFAULT_ARTIFACTS/2); i++)
             {
-                string gems = ((char)42).ToString();
-                
+                string text = "o";
+
                 int x = random.Next(1, COLS);
                 int y = random.Next(1, ROWS);
                 Point position = new Point(x, y);
                 position = position.Scale(CELL_SIZE);
+                Point velocity = new Point(0, VELOCITIES[random.Next(0, VELOCITIES.Count())]);
 
                 int r = random.Next(0, 256);
                 int g = random.Next(0, 256);
@@ -92,11 +97,12 @@ namespace Unit04
                 Color color = new Color(r, g, b);
 
                 Artifact artifact = new Artifact();
-                artifact.SetText(gems);
+                artifact.SetText(text);
                 artifact.SetFontSize(FONT_SIZE);
                 artifact.SetColor(color);
                 artifact.SetPosition(position);
-                cast.AddActor("gems", artifact);
+                artifact.SetVelocity(velocity);
+                cast.AddActor("rocks", artifact);
             }
 
             // start the game

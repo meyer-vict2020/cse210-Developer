@@ -15,6 +15,7 @@ namespace Unit04.Game.Directing
     {
         private KeyboardService keyboardService = null;
         private VideoService videoService = null;
+        private int score = 0;
 
         /// <summary>
         /// Constructs a new instance of Director using the given KeyboardService and VideoService.
@@ -51,19 +52,12 @@ namespace Unit04.Game.Directing
         {
             Random random = new Random();
             Actor robot = cast.GetFirstActor("robot");
-            Point velocity1 = keyboardService.GetDirection();
-            robot.SetVelocity(velocity1);
+            Point velocity = keyboardService.GetDirection();
+            robot.SetVelocity(velocity);
+            
+            Actor banner = cast.GetFirstActor("banner");
+            banner.SetText(score.ToString());
 
-            List<Actor> rocks = cast.GetActors("rocks");
-            List<Actor> gems = cast.GetActors("gems");
-            foreach (Actor actor in gems){
-                Point velocity2 = new Point(0,(random.Next(0,10)));
-                actor.SetVelocity(velocity2);
-            }
-            foreach (Actor actor in rocks){
-                Point velocity2 = new Point(0,(random.Next(0,10)));
-                actor.SetVelocity(velocity2);
-            }
         }
 
         /// <summary>
@@ -74,8 +68,8 @@ namespace Unit04.Game.Directing
         {
             Actor banner = cast.GetFirstActor("banner");
             Actor robot = cast.GetFirstActor("robot");
-            List<Actor> rocks = cast.GetActors("rocks");
             List<Actor> gems = cast.GetActors("gems");
+            List<Actor> rocks = cast.GetActors("rocks");
 
             int maxX = videoService.GetWidth();
             int maxY = videoService.GetHeight();
@@ -88,9 +82,9 @@ namespace Unit04.Game.Directing
                 if (robot.GetPosition().Equals(actor.GetPosition()))
                 {
                     Artifact artifact = (Artifact) actor;
-                    int score = artifact.GetScore();
-                    score += 1;
+                    score = artifact.ChangeScore(score);
                     banner.SetText(score.ToString());
+                    cast.RemoveActor("gems", actor);
                 }
             }
 
@@ -101,11 +95,12 @@ namespace Unit04.Game.Directing
                 if (robot.GetPosition().Equals(actor.GetPosition()))
                 {
                     Artifact artifact = (Artifact) actor;
-                    int score = artifact.GetScore();
-                    score -= 1;
+                    score = score - 1;
                     banner.SetText(score.ToString());
+                    cast.RemoveActor("rocks", actor);
                 }
             }
+
         }
 
         /// <summary>
